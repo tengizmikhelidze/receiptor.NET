@@ -1,0 +1,6 @@
+@receiptor.NET_HostAddress = http://localhost:5042
+
+GET {{receiptor.NET_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
