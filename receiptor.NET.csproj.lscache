@@ -56,6 +56,10 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 
 [sourceFiles]
 Data/ApplicationDBContext.cs
+Migrations/
+ 20260427133010_init.cs
+ 20260427133010_init.Designer.cs
+ ApplicationDBContextModelSnapshot.cs
 Models/Receipt.cs
 obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
