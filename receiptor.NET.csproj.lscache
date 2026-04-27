@@ -60,6 +60,8 @@ Data/ApplicationDBContext.cs
 Migrations/
  20260427140815_init.cs
  20260427140815_init.Designer.cs
+ 20260427154903_nullableReceiptId.cs
+ 20260427154903_nullableReceiptId.Designer.cs
  ApplicationDBContextModelSnapshot.cs
 Models/
  Ingredient.cs
