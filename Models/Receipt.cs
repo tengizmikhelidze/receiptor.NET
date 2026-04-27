@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using receiptor.NET.Enums;
 
 namespace receiptor.NET.Models
 {
@@ -17,5 +18,10 @@ namespace receiptor.NET.Models
         public decimal AveragePrice { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
+        public WeightUnit WeightUnit { get; set; }
+        
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Weight { get; set; }
     }
 }
