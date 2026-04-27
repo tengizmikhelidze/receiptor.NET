@@ -12,5 +12,6 @@ namespace receiptor.NET.Data
         {}
 
         public DbSet<Models.Receipt> Receipts { get; set; }
+        public DbSet<Models.Ingredient> Ingredients { get; set; }
     }
 }
