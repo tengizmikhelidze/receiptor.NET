@@ -10,7 +10,7 @@ namespace receiptor.NET.Models
     public class Ingredient
     {
         public int Id { get; set; }
-        public int? ReceiptId { get; set; }
+        public int ReceiptId { get; set; }
         public string Name { get; set; } = string.Empty;
         
         [Column(TypeName = "decimal(18,2)")]
