@@ -56,8 +56,14 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 
 [sourceFiles]
 Data/ApplicationDBContext.cs
-Enums/WeightUnit.cs
-Models/Receipt.cs
+Migrations/
+ 20260427140815_init.cs
+ 20260427140815_init.Designer.cs
+ ApplicationDBContextModelSnapshot.cs
+Models/
+ Ingredient.cs
+ Receipt.cs
+ WeightUnit.cs
 obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  receiptor.NET.AssemblyInfo.cs

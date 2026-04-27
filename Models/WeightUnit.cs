@@ -1,6 +1,6 @@
 namespace receiptor.NET.Enums
 {
-    public enum WeightUnit
+    public enum QuantityUnit
     {
         Kg,
         G,

@@ -11,17 +11,22 @@ namespace receiptor.NET.Models
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
+
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal AveragePrice { get; set; }
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
-        public WeightUnit WeightUnit { get; set; }
+
+        public QuantityUnit QuantityUnit { get; set; }
         
 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Weight { get; set; }
+        public decimal Quantity { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal AveragePrice { get; set; }
     }
 }
