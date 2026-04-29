@@ -14,7 +14,6 @@ public class IngredientDTO
 
 public class CreateIngredientRequestDTO
 {
-    public int ReceiptId { get; set; }
     public string Name { get; set; } = string.Empty;
         
     public decimal Quantity { get; set; }

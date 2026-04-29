@@ -21,7 +21,6 @@ public static class IngredientMapper
     {
         return new Ingredient
         {
-            ReceiptId = createIngredientRequestDTO.ReceiptId,
             Name = createIngredientRequestDTO.Name,
             Quantity = createIngredientRequestDTO.Quantity,
             QuantityUnit = createIngredientRequestDTO.QuantityUnit

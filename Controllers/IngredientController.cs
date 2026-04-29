@@ -12,14 +12,17 @@ public class IngredientController: ControllerBase
 {
     private readonly ApplicationDBContext _context;
     private readonly IIngredientRepository _ingredientRepository;
+    private readonly IReceiptRepository _receiptRepository;
     
     public IngredientController(
         ApplicationDBContext context,
-        IIngredientRepository ingredientRepository
+        IIngredientRepository ingredientRepository,
+        IReceiptRepository receiptRepository
         )
     {
         _context = context;
         _ingredientRepository = ingredientRepository;
+        _receiptRepository = receiptRepository;
     }
 
     [HttpGet("/api/Ingredients")]
@@ -43,12 +46,18 @@ public class IngredientController: ControllerBase
     }
     
     [HttpPost] 
-    public async Task<IActionResult> CreateIngredient([FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
+    public async Task<IActionResult> CreateIngredient([FromRoute] int receiptId, [FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
     {
-        var ingredient = createIngredientRequestDto.toIngredientFromCreateDTO();
-        await _ingredientRepository.createIngredientAsync(ingredient);
+        var receipt = await _receiptRepository.ReceiptExistsAsync(receiptId);
+        if (!receipt)
+        {
+            return NotFound();
+        }
         
-        return CreatedAtAction(nameof(GetIngredientByID), new {id = ingredient.Id}, ingredient.ToIngredientDTO());
+        var ingredientFromCreateDto = createIngredientRequestDto.toIngredientFromCreateDTO();
+        await _ingredientRepository.createIngredientAsync(ingredientFromCreateDto);
+        
+        return CreatedAtAction(nameof(GetIngredientByID), new {id = ingredientFromCreateDto.Id}, ingredientFromCreateDto.ToIngredientDTO());
     }
 
     [HttpPut("{id}")]

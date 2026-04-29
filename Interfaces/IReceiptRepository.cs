@@ -10,4 +10,5 @@ public interface IReceiptRepository
     Task<Receipt> CreateReceiptAsync(Receipt receipt);
     Task<Receipt?> UpdateReceiptAsync(int id, UpdateReceiptRequestDto updateReceiptRequestDto);
     Task<Receipt?> DeleteReceiptAsync(int id);
+    Task<bool> ReceiptExistsAsync(int id);
 }
