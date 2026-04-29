@@ -39,19 +39,17 @@ public class ReceiptRepository: IReceiptRepository
 
     public async Task<Receipt?> UpdateReceiptAsync(int id, UpdateReceiptRequestDto updateReceiptRequestDto)
     {
-        var existing = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == id);
+        var findById = await GetReceiptByIdAsync(id);
         
-        if (existing == null)
+        if (findById == null)
         {
             return null;
         }
         
-        existing.Name = updateReceiptRequestDto.Name;
-        existing.Description = updateReceiptRequestDto.Description;
-        existing.CategoryId = updateReceiptRequestDto.CategoryId;
+        _context.Entry(findById).CurrentValues.SetValues(updateReceiptRequestDto);
         
         await _context.SaveChangesAsync();
-        return existing;
+        return findById;
     }
 
     public async Task<Receipt?> DeleteReceiptAsync(int id)

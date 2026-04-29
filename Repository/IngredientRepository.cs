@@ -43,11 +43,8 @@ public class IngredientRepository: IIngredientRepository
         {
             return null;
         }
-
-        findById.ReceiptId = updateIngredientRequestDto.ReceiptId;
-        findById.Name = updateIngredientRequestDto.Name;
-        findById.Quantity = updateIngredientRequestDto.Quantity;
-        findById.QuantityUnit = updateIngredientRequestDto.QuantityUnit;
+        
+        _context.Entry(findById).CurrentValues.SetValues(updateIngredientRequestDto);
         
         await _context.SaveChangesAsync();
         return findById;
