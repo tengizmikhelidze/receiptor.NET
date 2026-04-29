@@ -32,7 +32,7 @@ public class IngredientController: ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetIngredient([FromRoute] int id)
+    public async Task<IActionResult> GetIngredientByID([FromRoute] int id)
     {
         var ingredient = await _ingredientRepository.getIngredientByIdAsync(id);
         if( ingredient == null)
@@ -48,7 +48,7 @@ public class IngredientController: ControllerBase
         var ingredient = createIngredientRequestDto.toIngredientFromCreateDTO();
         await _ingredientRepository.createIngredientAsync(ingredient);
         
-        return CreatedAtAction(nameof(GetIngredient), new {id = ingredient.Id}, ingredient.ToIngredientDTO());
+        return CreatedAtAction(nameof(GetIngredientByID), new {id = ingredient.Id}, ingredient.ToIngredientDTO());
     }
 
     [HttpPut("{id}")]

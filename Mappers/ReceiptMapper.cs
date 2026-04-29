@@ -18,7 +18,7 @@ public static class ReceiptMapper
             QuantityUnit = receipt.QuantityUnit,
             Quantity = receipt.Quantity,
             AveragePrice = receipt.AveragePrice,
-            Ingredients = receipt.Ingredients
+            Ingredients = receipt.Ingredients.Select(i => i.ToIngredientDTO()).ToList()
         };
     }
 

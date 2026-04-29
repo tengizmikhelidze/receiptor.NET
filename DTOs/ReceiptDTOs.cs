@@ -11,7 +11,7 @@ public class ReceiptDTOs
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
-    public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+    public List<IngredientDTO> Ingredients { get; set; } = new List<IngredientDTO>();
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;

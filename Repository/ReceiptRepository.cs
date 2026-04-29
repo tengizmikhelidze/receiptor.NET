@@ -17,12 +17,12 @@ public class ReceiptRepository: IReceiptRepository
 
     public async Task<List<Receipt>> GetAllReceiptsAsync()
     {
-        return await _context.Receipts.ToListAsync();
+        return await _context.Receipts.Include(i => i.Ingredients).ToListAsync();
     }
 
     public async Task<Receipt?> GetReceiptByIdAsync(int id)
     {
-        return await _context.Receipts.FindAsync(id);
+        return await _context.Receipts.Include(i => i.Ingredients).FirstOrDefaultAsync(r=> r.Id == id);
     }
 
     public async Task<Receipt> CreateReceiptAsync(Receipt receipt)

@@ -16,6 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    }
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
