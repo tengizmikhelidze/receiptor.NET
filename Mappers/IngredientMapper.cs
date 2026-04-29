@@ -26,4 +26,15 @@ public static class IngredientMapper
             QuantityUnit = createIngredientRequestDTO.QuantityUnit
         };
     }
+
+    public static Ingredient toIngredientFromCreateDTO(this CreateIngredientRequestDTO createIngredientRequestDTO, int receiptId)
+    {
+        return new Ingredient
+        {
+            ReceiptId = receiptId,
+            Name = createIngredientRequestDTO.Name,
+            Quantity = createIngredientRequestDTO.Quantity,
+            QuantityUnit = createIngredientRequestDTO.QuantityUnit
+        };
+    }
 }

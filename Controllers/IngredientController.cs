@@ -34,7 +34,7 @@ public class IngredientController: ControllerBase
         return Ok(ingredientsDto);
     }
     
-    [HttpGet("{id::int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetIngredientByID([FromRoute] int id)
     {
         var ingredient = await _ingredientRepository.getIngredientByIdAsync(id);
@@ -45,7 +45,7 @@ public class IngredientController: ControllerBase
         return Ok(ingredient.ToIngredientDTO());
     }
     
-    [HttpPost("{receiptId::int}")] 
+    [HttpPost("{receiptId:int}")] 
     public async Task<IActionResult> CreateIngredient([FromRoute] int receiptId, [FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
     {
         var receipt = await _receiptRepository.ReceiptExistsAsync(receiptId);
@@ -54,7 +54,7 @@ public class IngredientController: ControllerBase
             return NotFound();
         }
         
-        var ingredientFromCreateDto = createIngredientRequestDto.toIngredientFromCreateDTO();
+        var ingredientFromCreateDto = createIngredientRequestDto.toIngredientFromCreateDTO(receiptId);
         await _ingredientRepository.createIngredientAsync(ingredientFromCreateDto);
         
         return CreatedAtAction(nameof(GetIngredientByID), new {id = ingredientFromCreateDto.Id}, ingredientFromCreateDto.ToIngredientDTO());
