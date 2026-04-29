@@ -5,9 +5,9 @@ namespace receiptor.NET.Mappers;
 
 public static class ReceiptMapper
 {
-    public static ReceiptDTO ToReceiptDto(this Receipt receipt)
+    public static ReceiptDTOs ToReceiptDto(this Receipt receipt)
     {
-        return new ReceiptDTO
+        return new ReceiptDTOs
         {
             Id = receipt.Id,
             CategoryId = receipt.CategoryId,

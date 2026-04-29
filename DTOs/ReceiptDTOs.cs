@@ -3,7 +3,7 @@ using receiptor.NET.Enums;
 
 namespace receiptor.NET.DTOs;
 
-public class ReceiptDTO
+public class ReceiptDTOs
 {
     public int Id { get; set; }
     public int? CategoryId { get; set; }
@@ -21,4 +21,20 @@ public class ReceiptDTO
     public decimal Quantity { get; set; }
 
     public decimal AveragePrice { get; set; }
+}
+
+public class CreateReceiptRequestDto
+{
+    public int? CategoryId { get; set; }
+
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+}
+
+public class UpdateReceiptRequestDto
+{
+    public int? CategoryId { get; set; }
+
+    public string? Name { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
 }

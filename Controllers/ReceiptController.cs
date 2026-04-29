@@ -36,12 +36,29 @@ namespace receiptor.NET.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateReceipt([FromBody] CreateReceiptRequestDto receiptDto)
+        public IActionResult CreateReceipt([FromBody] CreateReceiptRequestDto bodyValue)
         {
-            var receiptModel = receiptDto.toReceiptFromCreateDTO();
+            var receiptModel = bodyValue.toReceiptFromCreateDTO();
             _context.Receipts.Add(receiptModel);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
+        }
+        
+        [HttpPut("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
+        {
+            var existingReceipt = _context.Receipts.FirstOrDefault(r => r.Id == id);
+            
+            if (existingReceipt == null)
+            {
+                return NotFound();
+            }
+
+            existingReceipt.Name = bodyValue.Name;
+            existingReceipt.Description = bodyValue.Description;
+            existingReceipt.CategoryId = bodyValue.CategoryId;
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }
