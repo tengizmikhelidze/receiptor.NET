@@ -26,9 +26,9 @@ public class IngredientController: ControllerBase
     public async Task<IActionResult> GetIngredients()
     {
         var ingredients = await _ingredientRepository.getAllIngredientsAsync();
-        var ingredientsDTO = ingredients.Select(i => i.ToIngredientDTO()); 
+        var ingredientsDto = ingredients.Select(i => i.ToIngredientDTO()); 
         
-        return Ok(ingredientsDTO);
+        return Ok(ingredientsDto);
     }
     
     [HttpGet("{id}")]
@@ -43,11 +43,24 @@ public class IngredientController: ControllerBase
     }
     
     [HttpPost] 
-    public async Task<IActionResult> CreateIngredient([FromBody] CreateIngredientRequestDTO createIngredientRequestDTO)
+    public async Task<IActionResult> CreateIngredient([FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
     {
-        var ingredient = createIngredientRequestDTO.toIngredientFromCreateDTO();
+        var ingredient = createIngredientRequestDto.toIngredientFromCreateDTO();
         await _ingredientRepository.createIngredientAsync(ingredient);
         
         return CreatedAtAction(nameof(GetIngredient), new {id = ingredient.Id}, ingredient.ToIngredientDTO());
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateIngredient([FromRoute] int id,
+        [FromBody] UpdateIngredientRequestDTO updateIngredientRequestDto)
+    {
+        var ingredient = await _ingredientRepository.updateIngredientAsync(id, updateIngredientRequestDto);
+        if (ingredient == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(ingredient);
     }
 }
