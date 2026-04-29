@@ -34,7 +34,7 @@ public class IngredientController: ControllerBase
         return Ok(ingredientsDto);
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{id::int}")]
     public async Task<IActionResult> GetIngredientByID([FromRoute] int id)
     {
         var ingredient = await _ingredientRepository.getIngredientByIdAsync(id);

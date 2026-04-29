@@ -34,7 +34,7 @@ namespace receiptor.NET.Controllers
             return Ok(receiptsDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id::int}")]
         public async Task<IActionResult> GetReceipt([FromRoute] int id)
         {
             var receipt = await _receiptRepository.GetReceiptByIdAsync(id);
@@ -53,7 +53,7 @@ namespace receiptor.NET.Controllers
             return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
         }
         
-        [HttpPut("{id}")]
+        [HttpPut("{id::int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
         {
             var existingReceipt = await _receiptRepository.GetReceiptByIdAsync(id);
