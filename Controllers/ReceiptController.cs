@@ -27,7 +27,7 @@ namespace receiptor.NET.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReceipts()
         {
-            var receipts = await _receiptRepository.GetAllReceipts();
+            var receipts = await _receiptRepository.GetAllReceiptsAsync();
 
             var receiptsDto = receipts.Select(r => r.ToReceiptDto());
             
@@ -37,7 +37,7 @@ namespace receiptor.NET.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReceipt([FromRoute] int id)
         {
-            var receipt = await _context.Receipts.FindAsync(id);
+            var receipt = await _receiptRepository.GetReceiptByIdAsync(id);
             if( receipt == null)
             {
                 return NotFound();
@@ -49,38 +49,34 @@ namespace receiptor.NET.Controllers
         public async Task<IActionResult> CreateReceipt([FromBody] CreateReceiptRequestDto bodyValue)
         {
             var receiptModel = bodyValue.toReceiptFromCreateDTO();
-            await _context.Receipts.AddAsync(receiptModel);
-            await _context.SaveChangesAsync();
+            await _receiptRepository.CreateReceiptAsync(receiptModel);
             return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
         }
         
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
         {
-            var existingReceipt = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == id);
+            var existingReceipt = await _receiptRepository.GetReceiptByIdAsync(id);
             
             if (existingReceipt == null)
             {
                 return NotFound();
             }
-
-            existingReceipt.Name = bodyValue.Name;
-            existingReceipt.Description = bodyValue.Description;
-            existingReceipt.CategoryId = bodyValue.CategoryId;
-            await _context.SaveChangesAsync();
+            
+            await _receiptRepository.UpdateReceiptAsync(existingReceipt.Id, bodyValue);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var existingReceipt = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == id);
+            var existingReceipt = await _receiptRepository.GetReceiptByIdAsync(id);
             if (existingReceipt == null)
             {
                 return NotFound();
             }
-            _context.Receipts.Remove(existingReceipt);
-            await _context.SaveChangesAsync();
+            
+            await _receiptRepository.DeleteReceiptAsync(existingReceipt);
             return Ok();
         }
     }
