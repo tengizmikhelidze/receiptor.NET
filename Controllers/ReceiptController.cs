@@ -78,5 +78,17 @@ namespace receiptor.NET.Controllers
             
             return Ok();
         }
+    
+        [HttpGet("GetReceiptByIngredient/{ingredientId}")]
+        public async Task<IActionResult> GetIngredientReceipt([FromRoute] int ingredientId)
+        {
+            var receipt = await _receiptRepository.getReceiptByIngredientIdAsync(ingredientId);
+            if (receipt == null)
+            {
+                return NotFound();
+            }
+        
+            return Ok(receipt);
+        }
     }
 }

@@ -9,10 +9,15 @@ namespace receiptor.NET.Repository;
 public class ReceiptRepository: IReceiptRepository
 {
     private readonly ApplicationDBContext _context;
+    private readonly IIngredientRepository _ingredientRepository;
     
-    public ReceiptRepository(ApplicationDBContext context)
+    public ReceiptRepository(
+        ApplicationDBContext context,
+        IIngredientRepository ingredientRepository
+    )
     {
         _context = context;
+        _ingredientRepository = ingredientRepository;
     }
 
     public async Task<List<Receipt>> GetAllReceiptsAsync()
@@ -65,5 +70,16 @@ public class ReceiptRepository: IReceiptRepository
     {
         var existing = await _context.Receipts.AnyAsync(r => r.Id == id);
         return existing;
+    }
+
+    public async Task<Receipt?> getReceiptByIngredientIdAsync(int ingredientId)
+    {
+        var ingredient = await _ingredientRepository.getIngredientByIdAsync(ingredientId);
+        if (ingredient == null)
+        {
+            return null;
+        }
+        
+        return await _context.Receipts.FindAsync(ingredient.ReceiptId);
     }
 }

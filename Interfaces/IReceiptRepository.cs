@@ -11,4 +11,5 @@ public interface IReceiptRepository
     Task<Receipt?> UpdateReceiptAsync(int id, UpdateReceiptRequestDto updateReceiptRequestDto);
     Task<Receipt?> DeleteReceiptAsync(int id);
     Task<bool> ReceiptExistsAsync(int id);
+    Task<Receipt?> getReceiptByIngredientIdAsync(int ingredientId);
 }

@@ -10,5 +10,4 @@ public interface IIngredientRepository
     Task<Ingredient> createIngredientAsync(Ingredient ingredient);
     Task<Ingredient?> updateIngredientAsync(int id, UpdateIngredientRequestDTO ingredient);
     Task<Ingredient?> deleteIngredientAsync(int id);
-    Task<Receipt?> getIngredientReceiptAsync(int id);
 }
