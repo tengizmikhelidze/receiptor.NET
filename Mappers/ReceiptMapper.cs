@@ -29,7 +29,7 @@ public static class ReceiptMapper
             CategoryId = createReceiptRequestDto.CategoryId,
             Name = createReceiptRequestDto.Name,
             Description = createReceiptRequestDto.Description,
-            Ingredients = createReceiptRequestDto.Ingredients
+            Ingredients = createReceiptRequestDto.Ingredients.Select(i=> i.toIngredientFromCreateDTO()).ToList()
         };
     }
 }

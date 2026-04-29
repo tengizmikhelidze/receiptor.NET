@@ -64,9 +64,9 @@ public class ReceiptRepository: IReceiptRepository
        return existing;
     }
     
-    public async Task<bool> ReceiptExistsAsync(int id)
+    public async Task<bool> ReceiptExistsAsync(int receiptId)
     {
-        var existing = await _context.Receipts.AnyAsync(r => r.Id == id);
+        var existing = await _context.Receipts.AnyAsync(r => r.Id == receiptId);
         return existing;
     }
 

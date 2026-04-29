@@ -45,7 +45,7 @@ public class IngredientController: ControllerBase
         return Ok(ingredient.ToIngredientDTO());
     }
     
-    [HttpPost] 
+    [HttpPost("{receiptId::int}")] 
     public async Task<IActionResult> CreateIngredient([FromRoute] int receiptId, [FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
     {
         var receipt = await _receiptRepository.ReceiptExistsAsync(receiptId);
