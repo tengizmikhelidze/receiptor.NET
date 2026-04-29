@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
+using receiptor.NET.Interfaces;
+using receiptor.NET.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddControllers();
+builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
 
 var app = builder.Build();
 

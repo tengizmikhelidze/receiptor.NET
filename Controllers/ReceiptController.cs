@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
 using receiptor.NET.DTOs;
+using receiptor.NET.Interfaces;
 using receiptor.NET.Mappers;
+using receiptor.NET.Repository;
 
 namespace receiptor.NET.Controllers
 {
@@ -11,16 +13,21 @@ namespace receiptor.NET.Controllers
     public class ReceiptController: ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly IReceiptRepository _receiptRepository;
 
-        public ReceiptController(ApplicationDBContext context)
+        public ReceiptController(
+            ApplicationDBContext context, 
+            IReceiptRepository receiptRepository
+            )
         {
             _context = context;
+            _receiptRepository = receiptRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetReceipts()
         {
-            var receipts = await _context.Receipts.ToListAsync();
+            var receipts = await _receiptRepository.GetAllReceipts();
 
             var receiptsDto = receipts.Select(r => r.ToReceiptDto());
             
