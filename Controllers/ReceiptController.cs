@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using receiptor.NET.Data;
+using receiptor.NET.DTOs;
 using receiptor.NET.Mappers;
 
 namespace receiptor.NET.Controllers
@@ -32,6 +33,15 @@ namespace receiptor.NET.Controllers
                 return NotFound();
             }
             return Ok(receipt.ToReceiptDto());
+        }
+
+        [HttpPost]
+        public IActionResult CreateReceipt([FromBody] CreateReceiptRequestDto receiptDto)
+        {
+            var receiptModel = receiptDto.toReceiptFromCreateDTO();
+            _context.Receipts.Add(receiptModel);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
         }
     }
 }

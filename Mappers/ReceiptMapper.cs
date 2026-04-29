@@ -20,4 +20,14 @@ public static class ReceiptMapper
             AveragePrice = receipt.AveragePrice
         };
     }
+
+    public static Receipt toReceiptFromCreateDTO(this CreateReceiptRequestDto createReceiptRequestDto)
+    {
+        return new Receipt
+        {
+            CategoryId = createReceiptRequestDto.CategoryId,
+            Name = createReceiptRequestDto.Name,
+            Description = createReceiptRequestDto.Description
+        };
+    }
 }
