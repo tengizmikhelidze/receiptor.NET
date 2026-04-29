@@ -5,8 +5,6 @@ namespace receiptor.NET.Interfaces;
 public interface IIngredientRepository
 {
     Task<List<Ingredient>> getAllIngredientsAsync();
-    Task<Ingredient> getIngredientByIdAsync();
-    Task<Ingredient> createIngredientAsync();
-    Task<Ingredient> updateIngredientAsync();
-    Task<Ingredient> deleteIngredientAsync(int id);
+    Task<Ingredient?> getIngredientByIdAsync(int id);
+    Task<Ingredient> createIngredientAsync(Ingredient ingredient);
 }

@@ -2,8 +2,9 @@
 
 namespace receiptor.NET.DTOs;
 
-public class IngredientDTOs
+public class IngredientDTO
 {
+    public int Id { get; set; }
     public int ReceiptId { get; set; }
     public string Name { get; set; } = string.Empty;
         
@@ -11,7 +12,7 @@ public class IngredientDTOs
     public QuantityUnit QuantityUnit { get; set; }
 }
 
-public class CreateIngredientRequestDto
+public class CreateIngredientRequestDTO
 {
     public int ReceiptId { get; set; }
     public string Name { get; set; } = string.Empty;

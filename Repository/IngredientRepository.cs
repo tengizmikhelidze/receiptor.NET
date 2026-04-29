@@ -1,6 +1,34 @@
-﻿namespace receiptor.NET.Repository;
+﻿using Microsoft.EntityFrameworkCore;
+using receiptor.NET.Data;
+using receiptor.NET.Interfaces;
+using receiptor.NET.Models;
 
-public class IngredientRepository
+namespace receiptor.NET.Repository;
+
+public class IngredientRepository: IIngredientRepository
 {
+    private readonly ApplicationDBContext _context;
     
+    public IngredientRepository(
+        ApplicationDBContext context
+        )
+    {
+        _context = context;
+    }
+    
+    
+    public async Task<List<Ingredient>> getAllIngredientsAsync()
+    {
+        return await _context.Ingredients.ToListAsync();
+    }
+
+    public async Task<Ingredient?> getIngredientByIdAsync(int id)
+    {
+        return await _context.Ingredients.FindAsync(id);
+    }
+
+    public async Task<Ingredient> createIngredientAsync(Ingredient ingredient)
+    {
+        throw new NotImplementedException();
+    }
 }

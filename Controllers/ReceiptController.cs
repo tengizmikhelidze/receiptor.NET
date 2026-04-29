@@ -8,7 +8,7 @@ using receiptor.NET.Repository;
 
 namespace receiptor.NET.Controllers
 {
-    [Route("api/Receipts")]
+    [Route("api/Receipt")]
     [ApiController]
     public class ReceiptController: ControllerBase
     {
@@ -24,7 +24,7 @@ namespace receiptor.NET.Controllers
             _receiptRepository = receiptRepository;
         }
 
-        [HttpGet]
+        [HttpGet("/api/Receipts")]
         public async Task<IActionResult> GetReceipts()
         {
             var receipts = await _receiptRepository.GetAllReceiptsAsync();

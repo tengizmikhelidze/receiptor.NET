@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 );
 builder.Services.AddControllers();
 builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
 var app = builder.Build();
 
