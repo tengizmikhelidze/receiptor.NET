@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
+using receiptor.NET.DTOs;
 using receiptor.NET.Interfaces;
 using receiptor.NET.Models;
 
@@ -29,6 +30,40 @@ public class IngredientRepository: IIngredientRepository
 
     public async Task<Ingredient> createIngredientAsync(Ingredient ingredient)
     {
-        throw new NotImplementedException();
+        await _context.Ingredients.AddAsync(ingredient);
+        await _context.SaveChangesAsync();
+        return ingredient;
+    }
+
+    public async Task<Ingredient?> updateIngredientAsync(int id, UpdateIngredientRequestDTO updateIngredientRequestDto)
+    {
+        var findById = await getIngredientByIdAsync(id);
+        
+        if (findById == null)
+        {
+            return null;
+        }
+
+        findById.ReceiptId = updateIngredientRequestDto.ReceiptId;
+        findById.Name = updateIngredientRequestDto.Name;
+        findById.Quantity = updateIngredientRequestDto.Quantity;
+        findById.QuantityUnit = updateIngredientRequestDto.QuantityUnit;
+        
+        await _context.SaveChangesAsync();
+        return findById;
+    }
+
+    public async Task<Ingredient?> deleteIngredientAsync(int id)
+    {
+        var findById = await getIngredientByIdAsync(id);
+        if (findById == null)
+        {
+            return null;
+        }
+        
+        _context.Ingredients.Remove(findById);
+        await _context.SaveChangesAsync();
+        
+        return findById;
     }
 }
