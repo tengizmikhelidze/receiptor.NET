@@ -29,6 +29,7 @@ public class CreateReceiptRequestDto
 
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 }
 
 public class UpdateReceiptRequestDto
@@ -37,4 +38,5 @@ public class UpdateReceiptRequestDto
 
     public string? Name { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
+    public List<Ingredient>? Ingredients { get; set; }
 }

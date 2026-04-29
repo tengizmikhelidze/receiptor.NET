@@ -17,7 +17,8 @@ public static class ReceiptMapper
             ModifiedAt = receipt.ModifiedAt,
             QuantityUnit = receipt.QuantityUnit,
             Quantity = receipt.Quantity,
-            AveragePrice = receipt.AveragePrice
+            AveragePrice = receipt.AveragePrice,
+            Ingredients = receipt.Ingredients
         };
     }
 
@@ -27,7 +28,8 @@ public static class ReceiptMapper
         {
             CategoryId = createReceiptRequestDto.CategoryId,
             Name = createReceiptRequestDto.Name,
-            Description = createReceiptRequestDto.Description
+            Description = createReceiptRequestDto.Description,
+            Ingredients = createReceiptRequestDto.Ingredients
         };
     }
 }
