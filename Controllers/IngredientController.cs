@@ -72,4 +72,16 @@ public class IngredientController: ControllerBase
         
         return Ok(ingredient);
     }
+    
+    [HttpGet("{id}/receipt")]
+    public async Task<IActionResult> GetIngredientReceipt([FromRoute] int id)
+    {
+        var receipt = await _ingredientRepository.getIngredientReceiptAsync(id);
+        if (receipt == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(receipt);
+    }
 }

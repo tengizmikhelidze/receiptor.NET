@@ -66,4 +66,15 @@ public class IngredientRepository: IIngredientRepository
         
         return findById;
     }
+
+    public async Task<Receipt?> getIngredientReceiptAsync(int id)
+    {
+        var ingredient = await getIngredientByIdAsync(id);
+        if (ingredient == null)
+        {
+            return null;
+        }
+        
+        return await _context.Receipts.FindAsync(ingredient.ReceiptId);
+    }
 }
