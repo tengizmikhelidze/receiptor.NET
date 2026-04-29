@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using receiptor.NET.Data;
+using receiptor.NET.Mappers;
 
 namespace receiptor.NET.Controllers
 {
-    [Route("api/Receipt")]
+    [Route("api/Receipts")]
     [ApiController]
     public class ReceiptController: ControllerBase
     {
@@ -21,7 +18,8 @@ namespace receiptor.NET.Controllers
         [HttpGet]
         public IActionResult GetReceipts()
         {
-            var receipts = _context.Receipts.ToList();
+            var receipts = _context.Receipts.ToList()
+                .Select(r => r.ToReceiptDto());
             return Ok(receipts);
         }
 
@@ -33,7 +31,7 @@ namespace receiptor.NET.Controllers
             {
                 return NotFound();
             }
-            return Ok(receipt);
+            return Ok(receipt.ToReceiptDto());
         }
     }
 }
