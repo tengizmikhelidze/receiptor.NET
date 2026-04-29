@@ -27,6 +27,11 @@ namespace receiptor.NET.Controllers
         [HttpGet("/api/Receipts")]
         public async Task<IActionResult> GetReceipts()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var receipts = await _receiptRepository.GetAllReceiptsAsync();
 
             var receiptsDto = receipts.Select(r => r.ToReceiptDto());
@@ -37,6 +42,11 @@ namespace receiptor.NET.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetReceipt([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var receipt = await _receiptRepository.GetReceiptByIdAsync(id);
             if( receipt == null)
             {
@@ -48,6 +58,11 @@ namespace receiptor.NET.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateReceipt([FromBody] CreateReceiptRequestDto bodyValue)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var receiptModel = bodyValue.toReceiptFromCreateDTO();
             await _receiptRepository.CreateReceiptAsync(receiptModel);
             return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
@@ -56,6 +71,11 @@ namespace receiptor.NET.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var existingReceipt = await _receiptRepository.GetReceiptByIdAsync(id);
             
             if (existingReceipt == null)
@@ -70,6 +90,11 @@ namespace receiptor.NET.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var existingReceipt = await _receiptRepository.DeleteReceiptAsync(id);
             if (existingReceipt == null)
             {
@@ -82,6 +107,11 @@ namespace receiptor.NET.Controllers
         [HttpGet("GetReceiptByIngredient/{ingredientId}")]
         public async Task<IActionResult> GetIngredientReceipt([FromRoute] int ingredientId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var receipt = await _receiptRepository.getReceiptByIngredientIdAsync(ingredientId);
             if (receipt == null)
             {

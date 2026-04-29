@@ -28,6 +28,10 @@ public class IngredientController: ControllerBase
     [HttpGet("/api/Ingredients")]
     public async Task<IActionResult> GetIngredients()
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var ingredients = await _ingredientRepository.getAllIngredientsAsync();
         var ingredientsDto = ingredients.Select(i => i.ToIngredientDTO()); 
         
@@ -37,6 +41,10 @@ public class IngredientController: ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetIngredientByID([FromRoute] int id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var ingredient = await _ingredientRepository.getIngredientByIdAsync(id);
         if( ingredient == null)
         {
@@ -48,6 +56,11 @@ public class IngredientController: ControllerBase
     [HttpPost("{receiptId:int}")] 
     public async Task<IActionResult> CreateIngredient([FromRoute] int receiptId, [FromBody] CreateIngredientRequestDTO createIngredientRequestDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         var receipt = await _receiptRepository.ReceiptExistsAsync(receiptId);
         if (!receipt)
         {
@@ -64,6 +77,16 @@ public class IngredientController: ControllerBase
     public async Task<IActionResult> UpdateIngredient([FromRoute] int id,
         [FromBody] UpdateIngredientRequestDTO updateIngredientRequestDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var receiptExists = await _receiptRepository.ReceiptExistsAsync(updateIngredientRequestDto.ReceiptId.Value);
+        if (!receiptExists)        {
+            return NotFound("Receipt does not exist");
+        }
+        
         var ingredient = await _ingredientRepository.updateIngredientAsync(id, updateIngredientRequestDto);
         if (ingredient == null)
         {

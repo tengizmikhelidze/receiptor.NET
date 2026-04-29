@@ -11,7 +11,7 @@ namespace receiptor.NET.Models
     public class Ingredient
     {
         public int Id { get; set; }
-        public int ReceiptId { get; set; }
+        public int? ReceiptId { get; set; }
         
         [Required]
         [MinLength(1, ErrorMessage = "The {0} must be at least {1} characters long.")]

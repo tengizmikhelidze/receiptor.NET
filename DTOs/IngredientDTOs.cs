@@ -17,7 +17,7 @@ public class IngredientBase
 public class IngredientDTO: IngredientBase
 {
     public int Id { get; set; }
-    public int ReceiptId { get; set; }
+    public int? ReceiptId { get; set; }
 }
 
 public class CreateIngredientRequestDTO: IngredientBase
@@ -26,7 +26,7 @@ public class CreateIngredientRequestDTO: IngredientBase
 
 public class UpdateIngredientRequestDTO
 {
-    public int ReceiptId { get; set; }
+    public int? ReceiptId { get; set; }
     public string Name { get; set; } = string.Empty;
         
     public decimal Quantity { get; set; }
