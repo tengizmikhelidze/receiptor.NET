@@ -60,5 +60,18 @@ namespace receiptor.NET.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var existingReceipt = _context.Receipts.FirstOrDefault(r => r.Id == id);
+            if (existingReceipt == null)
+            {
+                return NotFound();
+            }
+            _context.Receipts.Remove(existingReceipt);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }
