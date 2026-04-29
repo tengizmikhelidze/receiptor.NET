@@ -9,5 +9,5 @@ public interface IReceiptRepository
     Task<Receipt?> GetReceiptByIdAsync(int id);
     Task<Receipt> CreateReceiptAsync(Receipt receipt);
     Task<Receipt?> UpdateReceiptAsync(int id, UpdateReceiptRequestDto updateReceiptRequestDto);
-    Task<Receipt?> DeleteReceiptAsync(Receipt receipt);
+    Task<Receipt?> DeleteReceiptAsync(int id);
 }

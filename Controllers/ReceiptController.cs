@@ -70,13 +70,12 @@ namespace receiptor.NET.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var existingReceipt = await _receiptRepository.GetReceiptByIdAsync(id);
+            var existingReceipt = await _receiptRepository.DeleteReceiptAsync(id);
             if (existingReceipt == null)
             {
                 return NotFound();
             }
             
-            await _receiptRepository.DeleteReceiptAsync(existingReceipt);
             return Ok();
         }
     }

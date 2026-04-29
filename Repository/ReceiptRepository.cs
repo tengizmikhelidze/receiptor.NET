@@ -49,9 +49,9 @@ public class ReceiptRepository: IReceiptRepository
         return existing;
     }
 
-    public async Task<Receipt?> DeleteReceiptAsync(Receipt receipt)
+    public async Task<Receipt?> DeleteReceiptAsync(int id)
     {
-       var existing = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == receipt.Id);
+       var existing = await GetReceiptByIdAsync(id);
        if (existing == null)
        {
            return null;
