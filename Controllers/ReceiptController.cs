@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
 using receiptor.NET.DTOs;
 using receiptor.NET.Mappers;
@@ -17,17 +18,19 @@ namespace receiptor.NET.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetReceipts()
+        public async Task<IActionResult> GetReceipts()
         {
-            var receipts = _context.Receipts.ToList()
-                .Select(r => r.ToReceiptDto());
-            return Ok(receipts);
+            var receipts = await _context.Receipts.ToListAsync();
+
+            var receiptsDto = receipts.Select(r => r.ToReceiptDto());
+            
+            return Ok(receiptsDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetReceipt([FromRoute] int id)
+        public async Task<IActionResult> GetReceipt([FromRoute] int id)
         {
-            var receipt = _context.Receipts.Find(id);
+            var receipt = await _context.Receipts.FindAsync(id);
             if( receipt == null)
             {
                 return NotFound();
@@ -36,18 +39,18 @@ namespace receiptor.NET.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateReceipt([FromBody] CreateReceiptRequestDto bodyValue)
+        public async Task<IActionResult> CreateReceipt([FromBody] CreateReceiptRequestDto bodyValue)
         {
             var receiptModel = bodyValue.toReceiptFromCreateDTO();
-            _context.Receipts.Add(receiptModel);
-            _context.SaveChanges();
+            await _context.Receipts.AddAsync(receiptModel);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetReceipt), new {id = receiptModel.Id}, receiptModel.ToReceiptDto());
         }
         
         [HttpPut("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateReceiptRequestDto bodyValue)
         {
-            var existingReceipt = _context.Receipts.FirstOrDefault(r => r.Id == id);
+            var existingReceipt = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == id);
             
             if (existingReceipt == null)
             {
@@ -57,20 +60,20 @@ namespace receiptor.NET.Controllers
             existingReceipt.Name = bodyValue.Name;
             existingReceipt.Description = bodyValue.Description;
             existingReceipt.CategoryId = bodyValue.CategoryId;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var existingReceipt = _context.Receipts.FirstOrDefault(r => r.Id == id);
+            var existingReceipt = await _context.Receipts.FirstOrDefaultAsync(r => r.Id == id);
             if (existingReceipt == null)
             {
                 return NotFound();
             }
             _context.Receipts.Remove(existingReceipt);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok();
         }
     }
