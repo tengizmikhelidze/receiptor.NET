@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
 using receiptor.NET.DTOs;
+using receiptor.NET.Helpers;
 using receiptor.NET.Interfaces;
 using receiptor.NET.Mappers;
 using receiptor.NET.Repository;
@@ -25,14 +26,14 @@ namespace receiptor.NET.Controllers
         }
 
         [HttpGet("/api/Receipts")]
-        public async Task<IActionResult> GetReceipts()
+        public async Task<IActionResult> GetReceipts([FromQuery] ReceiptQueryObject receiptQuery)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var receipts = await _receiptRepository.GetAllReceiptsAsync();
+            var receipts = await _receiptRepository.GetAllReceiptsAsync(receiptQuery);
 
             var receiptsDto = receipts.Select(r => r.ToReceiptDto());
             

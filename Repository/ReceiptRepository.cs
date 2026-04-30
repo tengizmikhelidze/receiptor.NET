@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
 using receiptor.NET.DTOs;
+using receiptor.NET.Enums;
+using receiptor.NET.Helpers;
 using receiptor.NET.Interfaces;
 using receiptor.NET.Models;
 
@@ -20,9 +23,23 @@ public class ReceiptRepository: IReceiptRepository
         _ingredientRepository = ingredientRepository;
     }
 
-    public async Task<List<Receipt>> GetAllReceiptsAsync()
+    public async Task<List<Receipt>> GetAllReceiptsAsync(ReceiptQueryObject receiptQuery)
     {
-        return await _context.Receipts.Include(i => i.Ingredients).ToListAsync();
+        var query = _context.Receipts.AsNoTracking().Include(i => i.Ingredients).AsQueryable();
+        if(!string.IsNullOrWhiteSpace(receiptQuery.Name))
+        {
+            var nameQuery = receiptQuery.Name.Trim();
+            query = query.Where(r => r.Name.Contains(nameQuery));
+        }
+
+        if (!string.IsNullOrWhiteSpace(receiptQuery.Description))
+        {
+            var descriptionQuery = receiptQuery.Description.Trim();
+            query = query.Where(r => r.Description.Contains(descriptionQuery));
+        }
+        
+        query = ApplySorting(query, receiptQuery.Sort);
+        return await query.ToListAsync();
     }
 
     public async Task<Receipt?> GetReceiptByIdAsync(int id)
@@ -79,5 +96,41 @@ public class ReceiptRepository: IReceiptRepository
         }
         
         return await _context.Receipts.FindAsync(ingredient.ReceiptId);
+    }
+
+    private static IQueryable<Receipt> ApplySorting(IQueryable<Receipt> query, List<ReceiptSort> sorts)
+    {
+        if( sorts == null || sorts.Count == 0)
+        {
+            return query;
+        }
+        
+        IOrderedQueryable<Receipt>? orderedQuery = null;
+
+        foreach (var sort in sorts)
+        {
+            Expression<Func<Receipt, object>> keySelector = sort.Field switch
+            {
+                ReceiptSortField.Name => r => r.Name,
+                ReceiptSortField.Description => r => r.Description,
+                ReceiptSortField.CreatedAt => r => r.CreatedAt,
+                ReceiptSortField.ModifiedAt => r => r.ModifiedAt,
+                ReceiptSortField.Quantity => r => r.Ingredients.Count
+            };
+            
+            var isDesc = sort.SortBy == SortBy.Desc;
+
+            if (orderedQuery == null)
+            {
+                orderedQuery = isDesc ? query.OrderByDescending(keySelector) : query.OrderBy(keySelector);
+            }
+            else
+            {
+                orderedQuery = isDesc ? orderedQuery.ThenByDescending(keySelector) : orderedQuery.ThenBy(keySelector);
+            }
+        }
+        
+        return orderedQuery ?? query;
+        
     }
 }

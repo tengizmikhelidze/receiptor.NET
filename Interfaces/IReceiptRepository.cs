@@ -1,11 +1,12 @@
 ﻿using receiptor.NET.DTOs;
+using receiptor.NET.Helpers;
 using receiptor.NET.Models;
 
 namespace receiptor.NET.Interfaces;
 
 public interface IReceiptRepository
 {
-    Task<List<Receipt>> GetAllReceiptsAsync();
+    Task<List<Receipt>> GetAllReceiptsAsync(ReceiptQueryObject receiptQuery);
     Task<Receipt?> GetReceiptByIdAsync(int id);
     Task<Receipt> CreateReceiptAsync(Receipt receipt);
     Task<Receipt?> UpdateReceiptAsync(int id, UpdateReceiptRequestDto updateReceiptRequestDto);
