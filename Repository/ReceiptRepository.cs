@@ -115,7 +115,8 @@ public class ReceiptRepository: IReceiptRepository
                 ReceiptSortField.Description => r => r.Description,
                 ReceiptSortField.CreatedAt => r => r.CreatedAt,
                 ReceiptSortField.ModifiedAt => r => r.ModifiedAt,
-                ReceiptSortField.Quantity => r => r.Ingredients.Count
+                ReceiptSortField.Quantity => r => r.Quantity,
+                _ => r => r.CreatedAt
             };
             
             var isDesc = sort.SortBy == SortBy.Desc;

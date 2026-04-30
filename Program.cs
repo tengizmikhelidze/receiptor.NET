@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using receiptor.NET.Data;
 using receiptor.NET.Interfaces;
@@ -12,15 +13,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-builder.Services.AddControllers();
 builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    }
-);
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter(allowIntegerValues: true)
+        );
+    });
 
 var app = builder.Build();
 
